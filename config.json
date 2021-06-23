@@ -1,0 +1,8 @@
+{
+  "secret_key": "django-insecure-+(0n@6^y7zpvrx+_6irt^xptmrxdwiy+qw8t#@*0xxg+u%9@(j",
+  "name": "privateStorage",
+  "user": "postgres",
+  "host": "localhost",
+  "password": "jango123#",
+  "domain": "http://127.0.0.1:8000"
+}
