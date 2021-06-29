@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<span>Link: </span>
-{{ link }}
-<span>Password: </span>
-{{ password }}
+<h1>Your data has been stored in the most secure storage in the world</h1>
+<div class="data">
+    <div class="info">
+        <span>Your link: </span>
+        <a href="{{ link }}">{{ link }}</a>
+    </div>
+    <div class="info">
+        <span>Your password: </span>
+        <span>{{ password }}</span>
+    </div>
+</div>
 </body>
 </html>

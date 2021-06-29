@@ -1,0 +1,100 @@
+html {
+    width: 100vw;
+    height: 100vh;
+    background-color: #222226;
+    font-family: "Montserrat", sans-serif;
+    color: whitesmoke;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+}
+
+h1 {
+    font-size: 40px;
+    margin: 120px 0 120px 0;
+}
+
+form {
+    height: 15vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+#id_text {
+    width: 700px;
+    height: 30px;
+    background-color: #444446;
+    caret-color: whitesmoke;
+    color: whitesmoke;
+    border-radius: 4px;
+    border: 0;
+}
+
+input[type="password"] {
+    height: 30px;
+    background-color: #444446;
+    caret-color: whitesmoke;
+    color: whitesmoke;
+    border-radius: 4px;
+    border: 0;
+}
+
+#id_text:focus {
+    outline: none;
+}
+
+input[type="submit"] {
+    background-color: #828283;
+    text-decoration: none;
+    width: 60px;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+    color: whitesmoke;
+    border: 2px solid #828283;
+}
+
+
+input[type="submit"]:hover {
+    background-color: #444446;
+    cursor: pointer;
+}
+
+.data {
+    display: flex;
+    flex-direction: column;
+}
+
+span {
+    size: 20px;
+}
+
+a {
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+}
+
+img {
+    margin-bottom: 60px;
+    border: 2px solid #828283;
+    border-radius: 5px;
+}
+
+span.wrong {
+    margin-top: 10px;
+    color: red;
+}

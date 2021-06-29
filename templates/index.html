@@ -4,9 +4,14 @@
 <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Storage</title>
 </head>
 <body>
-<h1>404 Not Found :(</h1>
+<h1>Private Storage</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
 </body>
 </html>

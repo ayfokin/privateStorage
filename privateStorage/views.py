@@ -1,11 +1,13 @@
 import json
+from tempfile import TemporaryFile
 
+from django.core.files.images import ImageFile
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render
 from django import forms
 
 from storage.models import Data
-from storage.backend import generate_sequence, get_image
+from storage.backend import generate_sequence, create_image, optimize_db
 
 # Create your views here.
 
@@ -14,22 +16,25 @@ with open("config.json", "r") as config_file:
 
 
 class TextForm(forms.Form):
-    text = forms.CharField(label='Введите текст', max_length=100, required=True)
+    text = forms.CharField(label='Enter secret information', max_length=100,
+                           widget=forms.TextInput(attrs={'required': 'true'}))
 
 
-def home(request, *args, **kwargs):
+def index(request, *args, **kwargs):
+    # optimize_db(repeat=5)
     if request.method == 'GET':
         form = TextForm()
-        return render(request, "home.html", {'form': form})
+        return render(request, "index.html", {'form': form})
     if request.method == 'POST':
         form = TextForm(request.POST)
         if form.is_valid():
-            pic = get_image(form.cleaned_data['text'])
-            link = domain + '/storage/' + generate_sequence()
-            password = generate_sequence()
-            entry = Data(link=link, password=password, picture=pic)
-            entry.save()
-            return render(request, "response.html", {'link': link, 'password': password})
+            with TemporaryFile(mode='w+b') as tmp:
+                create_image(form.cleaned_data['text'], tmp)
+                link = domain + '/storage/' + generate_sequence()
+                password = generate_sequence()
+                entry = Data(link=link, password=password, picture=ImageFile(tmp, name=generate_sequence() + '.png'))
+                entry.save()
+                return render(request, "response.html", {'link': link, 'password': password})
         return HttpResponseBadRequest(reason=form.errors)
 
 

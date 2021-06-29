@@ -1,8 +1,12 @@
 import random
-from io import BytesIO
+from datetime import datetime
+import pytz
 
-from PIL import Image, ImageDraw
+from background_task import background
 
+from storage.models import Data
+
+from PIL import Image, ImageDraw, ImageFont
 
 
 def generate_sequence():
@@ -15,11 +19,19 @@ def generate_sequence():
     return uid
 
 
-def get_image(text):
-    out = Image.new("RGBA", (150, 100), (255, 255, 255, 0))
+def create_image(text, file):
+    out = Image.new("RGB", (1, 1), color='#222226')
     context = ImageDraw.Draw(out)
-    context.text((10, 10), text, fill=(255, 255, 255, 255))
-    byte_io = BytesIO()
-    out.show()
-    pic = out.save(byte_io, 'PNG')
-    return pic
+    font = ImageFont.truetype('/media/fonts/verdana.ttf', size=18)
+    out = out.resize(i + 14 for i in context.textsize(text, font))
+    context = ImageDraw.Draw(out)
+    context.text((7, 3), text, (245, 245, 245), font=font)
+    out.save(file, "PNG")
+
+
+@background()
+def optimize_db():
+    now = pytz.utc.localize(datetime.utcnow())
+    for i in Data.Entry.all():
+        if (now - i.create_time).days >= 7:
+            i.delete()

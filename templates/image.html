@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-{{ image }}
+<h1>Your secret information</h1>
+<img src="{{ image.url }}">
+<span>Image will be deleted in {{ days }} days {{ hours }} hours {{ minutes }} minutes {{ seconds }} seconds</span>
 </body>
 </html>
