@@ -3,7 +3,7 @@ import math
 
 import pytz
 from django import forms
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseServerError
 from django.shortcuts import render
 from storage.models import Data
 from datetime import datetime, timedelta
@@ -48,3 +48,5 @@ def get_from_storage(request, *args, **kwargs):
                     return render(request, "password.html", {'form': PwdForm(), 'wrong_pwd': True})
         except Data.DoesNotExist:
             raise Http404
+        except:
+            return HttpResponseServerError

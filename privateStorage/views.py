@@ -2,7 +2,7 @@ import json
 from tempfile import TemporaryFile
 
 from django.core.files.images import ImageFile
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponseServerError
 from django.shortcuts import render
 from django import forms
 
@@ -28,17 +28,15 @@ def index(request, *args, **kwargs):
     if request.method == 'POST':
         form = TextForm(request.POST)
         if form.is_valid():
-            with TemporaryFile(mode='w+b') as tmp:
-                create_image(form.cleaned_data['text'], tmp)
-                link = domain + '/storage/' + generate_sequence()
-                password = generate_sequence()
-                entry = Data(link=link, password=password, picture=ImageFile(tmp, name=generate_sequence() + '.png'))
-                entry.save()
-                return render(request, "response.html", {'link': link, 'password': password})
+            try:
+                with TemporaryFile(mode='w+b') as tmp:
+                    create_image(form.cleaned_data['text'], tmp)
+                    link = domain + '/storage/' + generate_sequence()
+                    password = generate_sequence()
+                    entry = Data(link=link, password=password,
+                                 picture=ImageFile(tmp, name=generate_sequence() + '.png'))
+                    entry.save()
+                    return render(request, "response.html", {'link': link, 'password': password})
+            except:
+                return HttpResponseServerError
         return HttpResponseBadRequest(reason=form.errors)
-
-
-
-
-
-
